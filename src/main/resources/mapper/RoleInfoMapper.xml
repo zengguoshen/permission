@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.RoleInfoMapper">
+
+    <select id="getAllRoleBy" resultType="com.qf.dto.RoleDto" parameterType="com.qf.vo.RoleInfoVo">
+        SELECT * from roleinfo
+        <where>
+            <if test="roleName != null and roleName !=''">
+                and rolename like "%"#{roleName}"%"
+            </if>
+            <if test="shortName != null and shortName !=''">
+                and shortName like "%"#{shortName}"%"
+            </if>
+        </where>
+    </select>
+
+    <select id="dynamicForeachTest" parameterType="com.qf.dto.InsertUserRoleDto">
+
+        insert into user_role(usid, roleid, userid)
+        values
+        <foreach collection="roleIds" index="index" item="roleId" open="(" separator="," close=")">
+            DEFAULT ,#{roleId},#{userId}
+        </foreach>
+    </select>
+</mapper>
